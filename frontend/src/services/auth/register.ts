@@ -1,7 +1,7 @@
 import { CognitoUserAttribute } from "amazon-cognito-identity-js";
 import { userPool } from "../../pools/UserPool";
 
-export const registerUser = (
+export const registerUser = async (
   email: string,
   password: string,
   phone: string
@@ -12,11 +12,12 @@ export const registerUser = (
   };
   const userAttribute = new CognitoUserAttribute(dataPhoneNumber);
 
-  userPool.signUp(email, password, [userAttribute], [], (err, data) => {
-    if (err) {
-      return console.log("something went wrong:", err);
-    }
-
-    return console.log("user created");
+  return new Promise((resolve, reject) => {
+    userPool.signUp(email, password, [userAttribute], [], (err, data) => {
+      if (err) {
+        return reject(err);
+      }
+      return resolve("user created");
+    });
   });
 };

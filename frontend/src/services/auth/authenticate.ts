@@ -6,12 +6,14 @@ export const authenticate = (email: string, password: string) => {
     Username: email,
     Password: password,
   });
-  cognitoUser(email).authenticateUser(authenticationDetails, {
-    onSuccess: () => {
-      console.log("user authenticated");
-    },
-    onFailure: (err) => {
-      console.log("something happened", err);
-    },
+  return new Promise((resolve, reject) => {
+    cognitoUser(email).authenticateUser(authenticationDetails, {
+      onSuccess: () => {
+        return resolve("user authenticated");
+      },
+      onFailure: (err) => {
+        return reject("something happened" + err);
+      },
+    });
   });
 };

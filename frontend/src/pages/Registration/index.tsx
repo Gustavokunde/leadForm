@@ -1,46 +1,47 @@
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 import { object, string } from "yup";
 import { registerUser } from "../../services/auth/register";
 
-
 const Registration = () => {
+  const navigate = useNavigate();
 
- const formik = useFormik({
-    initialValues:{
-         email: "", password:"", phone: ""
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      phone: "",
     },
     validationSchema: object().shape({
-        email: string()
-            .email("Email not valid")
-            .required("Email is required"),
-        password: string().required("Password is required"),
-        phone:string().required("Phone is required"),
+      email: string().email("Email not valid").required("Email is required"),
+      password: string().required("Password is required"),
+      phone: string().required("Phone is required"),
     }),
-    onSubmit: (values)=>{
-        registerUser(values.email, values.password, values.phone)
-    }
- });
+    onSubmit: (values) => {
+      registerUser(values.email, values.password, values.phone).then(() => {
+        navigate("/confirmUser");
+      });
+    },
+  });
 
-
- const inputFormHandler = (name: keyof typeof formik.values) =>{
+  const inputFormHandler = (name: keyof typeof formik.values) => {
     return {
-        onChange:formik.handleChange,
-        id: name,
-        name,
-    }
- }
-
+      onChange: formik.handleChange,
+      id: name,
+      name,
+    };
+  };
 
   return (
     <form onSubmit={formik.handleSubmit}>
       <label>Email:</label>
-      <input type="email" {...inputFormHandler("email")}/>
+      <input type="email" {...inputFormHandler("email")} />
 
       <label>Password:</label>
-      <input type="password" {...inputFormHandler("password")}/>
+      <input type="password" {...inputFormHandler("password")} />
 
       <label>Phone:</label>
-      <input type="tel" {...inputFormHandler("phone")}/>
+      <input type="tel" {...inputFormHandler("phone")} />
 
       <button type="submit">Submit</button>
     </form>
