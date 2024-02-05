@@ -12,7 +12,6 @@ export const authenticate = (
   return new Promise((resolve, reject) => {
     cognitoUser(email).authenticateUser(authenticationDetails, {
       onSuccess: (data) => {
-        console.log(data, data.getAccessToken().payload);
         return resolve({
           token: data.getAccessToken().getJwtToken(),
         });
