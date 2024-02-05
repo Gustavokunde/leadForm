@@ -1,3 +1,10 @@
+# Introduction
+
+This is a simple application with Cognito Register and Authentication control that has a simple lead form generation. It was used vite + React + typescript in the frontend side and also formik + yup for form generations. For styling it was opted to use styled components due it's simplicitly and well combination in React environment.
+
+For the backend side, it was opted to use sqlite3 to save the data and it was created a very simple architecture just to have the main creation of the user lead data.
+
+
 # Authentication with Cognito
 
 To enable the functionality of this application, AWS Cognito, along with amazon-cognito-identity-js and aws-jwt-verify, was employed.
@@ -23,3 +30,6 @@ Additionally, we have specific branches for ongoing work:
 # Simple bug fixed:
 In order to show how I would solve a bug, there was created a hotfix branch to hide and show password field in login page.
 
+# Improvements
+
+There were certaintly lots of enhancements to be done, such as unit testings, improvings in user experience and also architecture refactor based on growth needs.
