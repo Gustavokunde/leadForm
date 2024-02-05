@@ -4,7 +4,7 @@ This is a simple application with Cognito Register and Authentication control th
 
 For the backend side, it was opted to use sqlite3 to save the data and it was created a very simple architecture just to have the main creation of the user lead data.
 
-#Instructions to run the application
+# Instructions to run the application
 In order to make the application to run, you need to provide env variables first both for frontend and backend in each of those folders. After that, you need to install the dependecies on each side (both client and server) by running "npm install". Then to run frontend you only need to run "npm run dev" and to run the backend you need to run script "npm start" only.
 
 # Authentication with Cognito
