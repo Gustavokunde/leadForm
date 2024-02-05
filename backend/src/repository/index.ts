@@ -7,7 +7,8 @@ export function initDatabase() {
       CREATE TABLE IF NOT EXISTS leads (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT,
-        email TEXT
+        email TEXT,
+        phone TEXT
       )
     `);
 }

@@ -1,19 +1,32 @@
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 import { object, string } from "yup";
+import Input from "../../components/Input";
 import { confirmUser } from "../../services/auth/confirmUser";
+import { Form } from "../../styles/form.styles";
 
 const UserConfirmation = () => {
+  const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       email: "",
       confirmationCode: "",
     },
     validationSchema: object().shape({
-      email: string().required(),
-      confirmationCode: string().required().length(6),
+      email: string().required("Email is required"),
+      confirmationCode: string()
+        .required("Confirmation code is required")
+        .length(6),
     }),
     onSubmit: ({ email, confirmationCode }) => {
-      confirmUser(email, confirmationCode);
+      confirmUser(email, confirmationCode)
+        .then(() => {
+          navigate("/");
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
     },
   });
 
@@ -22,19 +35,20 @@ const UserConfirmation = () => {
       onChange: formik.handleChange,
       id: name,
       name,
+      errorMessage: formik.errors[name],
     };
   };
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <label>Email:</label>
-      <input type="email" {...inputFormHandler("email")} />
-
-      <label>Confirmation Code:</label>
-      <input type="text" {...inputFormHandler("confirmationCode")} />
-
+    <Form onSubmit={formik.handleSubmit}>
+      <Input type="email" {...inputFormHandler("email")} label="Email" />
+      <Input
+        type="text"
+        {...inputFormHandler("confirmationCode")}
+        label="Confirmation Code"
+      />
       <button>Submit</button>
-    </form>
+    </Form>
   );
 };
 

@@ -1,7 +1,9 @@
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import { object, string } from "yup";
+import Input from "../../components/Input";
 import { registerUser } from "../../services/auth/register";
+import { Form } from "../../styles/form.styles";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -18,9 +20,13 @@ const Registration = () => {
       phone: string().required("Phone is required"),
     }),
     onSubmit: (values) => {
-      registerUser(values.email, values.password, values.phone).then(() => {
-        navigate("/confirmUser");
-      });
+      registerUser(values.email, values.password, values.phone)
+        .then(() => {
+          navigate("/confirmUser");
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
     },
   });
 
@@ -29,22 +35,21 @@ const Registration = () => {
       onChange: formik.handleChange,
       id: name,
       name,
+      errorMessage: formik.errors[name],
     };
   };
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <label>Email:</label>
-      <input type="email" {...inputFormHandler("email")} />
-
-      <label>Password:</label>
-      <input type="password" {...inputFormHandler("password")} />
-
-      <label>Phone:</label>
-      <input type="tel" {...inputFormHandler("phone")} />
-
+    <Form onSubmit={formik.handleSubmit}>
+      <Input type="email" {...inputFormHandler("email")} label="Email" />
+      <Input
+        type="password"
+        {...inputFormHandler("password")}
+        label="Password"
+      />
+      <Input type="tel" {...inputFormHandler("phone")} label="Phone" />
       <button type="submit">Submit</button>
-    </form>
+    </Form>
   );
 };
 

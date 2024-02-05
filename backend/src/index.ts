@@ -1,7 +1,10 @@
 import cors from "cors";
+import "dotenv/config";
 import express from "express";
+import { isAuthenticated } from "./middlewares/isAuthenticated";
 import { initDatabase } from "./repository";
 import { createLead } from "./repository/lead/createLead";
+
 const app = express();
 const port = 3000;
 
@@ -9,9 +12,10 @@ initDatabase();
 app.use(express.json());
 app.use(cors({ origin: "*" }));
 
-app.post("/leads", (req, res) => {
+app.use(isAuthenticated);
+app.post("/leads", async (req, res) => {
   const { name, email, phone } = req.body;
-  createLead(name, email, phone)
+  await createLead(name, email, phone)
     .then((lead) => {
       return res.json(lead);
     })

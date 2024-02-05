@@ -11,6 +11,14 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url(./assets/layer-170971.jpg);
+}
+
+@media (min-width:1025px) {
+  :root{
+    background-size: 100%;
+    background-repeat: no-repeat;
+  }
 }
 
 a {
