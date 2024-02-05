@@ -16,10 +16,11 @@ const Login = () => {
       email: string().email("Email not valid").required("Email is required"),
       password: string().required("Password is required"),
     }),
+    validateOnBlur: true,
     onSubmit: ({ email, password }) => {
       authenticate(email, password).then(({ token }: { token: string }) => {
         sessionStorage.setItem("authToken", token);
-        navigate("/createlead");
+        navigate("/createLead");
       });
     },
   });

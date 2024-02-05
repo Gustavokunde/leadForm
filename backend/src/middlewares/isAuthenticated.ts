@@ -25,7 +25,6 @@ export async function isAuthenticated(
 
   try {
     const payload = await verifier.verify(accessToken);
-    console.log(payload);
     next();
   } catch {
     return res.status(401).json({ message: "Unauthorized" });

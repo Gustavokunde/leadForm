@@ -17,7 +17,9 @@ const LeadForm = () => {
       phone: string().required("Phone is required"),
     }),
     onSubmit: (values) => {
-      createLead(values);
+      createLead(values)
+        .then(() => alert("Lead created"))
+        .catch((err) => alert("an error occurred on creating lead"));
     },
   });
 
