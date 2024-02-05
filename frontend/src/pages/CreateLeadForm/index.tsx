@@ -1,6 +1,8 @@
 import { useFormik } from "formik";
 import { object, string } from "yup";
+import Input from "../../components/Input";
 import { createLead } from "../../services/lead/createLead";
+import { Form } from "../../styles/form.styles";
 
 const LeadForm = () => {
   const formik = useFormik({
@@ -15,7 +17,6 @@ const LeadForm = () => {
       phone: string().required("Phone is required"),
     }),
     onSubmit: (values) => {
-      console.log("called submit function");
       createLead(values);
     },
   });
@@ -25,24 +26,17 @@ const LeadForm = () => {
       onChange: formik.handleChange,
       id: name,
       name,
+      errorMessage: formik.errors[name],
     };
   };
 
-  console.log(formik.isValid, formik.errors);
-
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <label>Name:</label>
-      <input type="text" {...inputFormHandler("name")} />
-
-      <label>Email:</label>
-      <input type="email" {...inputFormHandler("email")} />
-
-      <label>Phone:</label>
-      <input type="tel" {...inputFormHandler("phone")} />
-
+    <Form onSubmit={formik.handleSubmit}>
+      <Input type="text" {...inputFormHandler("name")} label="Name" />
+      <Input type="email" {...inputFormHandler("email")} label="Email" />
+      <Input type="tel" {...inputFormHandler("phone")} label="Phone" />
       <button type="submit">Submit</button>
-    </form>
+    </Form>
   );
 };
 

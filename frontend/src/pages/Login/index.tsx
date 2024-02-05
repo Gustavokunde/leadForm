@@ -1,8 +1,12 @@
 import { useFormik } from "formik";
+import { Link, useNavigate } from "react-router-dom";
 import { object, string } from "yup";
+import Input from "../../components/Input";
 import { authenticate } from "../../services/auth/authenticate";
+import { Form } from "../../styles/form.styles";
 
 const Login = () => {
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -15,6 +19,7 @@ const Login = () => {
     onSubmit: ({ email, password }) => {
       authenticate(email, password).then(({ token }: { token: string }) => {
         sessionStorage.setItem("authToken", token);
+        navigate("/createlead");
       });
     },
   });
@@ -24,19 +29,17 @@ const Login = () => {
       onChange: formik.handleChange,
       id: name,
       name,
+      errorMessage: formik.errors[name],
     };
   };
 
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <label>Email:</label>
-      <input type="email" {...inputFormHandler("email")} />
-
-      <label>Password:</label>
-      <input type="tel" {...inputFormHandler("password")} />
-
+    <Form onSubmit={formik.handleSubmit}>
+      <Input type="email" {...inputFormHandler("email")} label="Email" />
+      <Input type="tel" {...inputFormHandler("password")} label="Password" />
+      <Link to={"signup"}>Sign up</Link>
       <button>Submit</button>
-    </form>
+    </Form>
   );
 };
 
