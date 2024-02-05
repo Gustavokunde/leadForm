@@ -12,7 +12,8 @@ initDatabase();
 app.use(express.json());
 app.use(cors({ origin: "*" }));
 
-app.post("/leads", app.use(isAuthenticated), async (req, res) => {
+app.use(isAuthenticated);
+app.post("/leads", async (req, res) => {
   const { name, email, phone } = req.body;
   await createLead(name, email, phone)
     .then((lead) => {

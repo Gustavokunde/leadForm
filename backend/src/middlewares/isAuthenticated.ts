@@ -1,8 +1,4 @@
-import {
-  AuthenticationDetails,
-  CognitoUser,
-  CognitoUserPool,
-} from "amazon-cognito-identity-js";
+import { CognitoJwtVerifier } from "aws-jwt-verify";
 import { NextFunction, Request, Response } from "express";
 
 const poolData = {
@@ -10,40 +6,26 @@ const poolData = {
   ClientId: process.env.COGNITO_CLIENT_ID!,
 };
 
-const userPool = new CognitoUserPool(poolData);
-
-export function isAuthenticated(
+export async function isAuthenticated(
   req: Request,
   res: Response,
   next: NextFunction
 ) {
   const accessToken = req.headers["authorization"]!;
-
   if (!accessToken) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-
-  const authenticationData = {
-    AccessToken: accessToken,
-    Username: "",
-  };
-
-  const authenticationDetails = new AuthenticationDetails(authenticationData);
-
-  const userData = {
-    Username: "",
-    Pool: userPool,
-  };
-
-  const cognitoUser = new CognitoUser(userData);
-
-  cognitoUser.authenticateUser(authenticationDetails, {
-    onSuccess: () => {
-      next();
-    },
-    onFailure: (err) => {
-      console.error("Authentication failed:", err);
-      return res.status(401).json({ message: "Unauthorized" });
-    },
+  const verifier = CognitoJwtVerifier.create({
+    userPoolId: poolData.UserPoolId,
+    tokenUse: "access",
+    clientId: poolData.ClientId,
   });
+
+  try {
+    const payload = await verifier.verify(accessToken);
+    console.log(payload);
+    next();
+  } catch {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
 }
