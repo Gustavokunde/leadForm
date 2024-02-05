@@ -1,4 +1,4 @@
-import { db } from "../";
+import { db } from "..";
 
 export async function createLead(name: string, email: string, phone: string) {
   db.run(

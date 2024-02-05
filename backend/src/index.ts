@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import { initDatabase } from "./repository";
 import { createLead } from "./repository/lead/createLead";
@@ -6,6 +7,7 @@ const port = 3000;
 
 initDatabase();
 app.use(express.json());
+app.use(cors({ origin: "*" }));
 
 app.post("/leads", (req, res) => {
   const { name, email, phone } = req.body;
