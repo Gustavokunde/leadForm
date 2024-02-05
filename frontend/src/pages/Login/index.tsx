@@ -7,6 +7,7 @@ import { Form } from "../../styles/form.styles";
 
 const Login = () => {
   const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -37,7 +38,11 @@ const Login = () => {
   return (
     <Form onSubmit={formik.handleSubmit}>
       <Input type="email" {...inputFormHandler("email")} label="Email" />
-      <Input type="tel" {...inputFormHandler("password")} label="Password" />
+      <Input
+        type="password"
+        {...inputFormHandler("password")}
+        label="Password"
+      />
       <Link to={"signup"}>Sign up</Link>
       <button>Submit</button>
     </Form>
