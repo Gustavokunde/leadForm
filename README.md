@@ -20,5 +20,6 @@ Additionally, we have specific branches for ongoing work:
 - feature/x: Dedicated to work in progress for individual feature tasks. These branches are created from the develop branch.
 - hotfix/x: Reserved for addressing urgent issues. Hotfix branches are created from the master branch when needed.
 
-
+# Simple bug fixed:
+In order to show how I would solve a bug, there was created a hotfix branch to hide and show password field in login page.
 
