@@ -22,7 +22,7 @@ const Registration = () => {
     onSubmit: (values) => {
       registerUser(values.email, values.password, values.phone)
         .then(() => {
-          navigate("/confirmUser");
+          navigate(`/confirmUser?email=${values.email}`);
         })
         .catch((err) => {
           alert(err.message);

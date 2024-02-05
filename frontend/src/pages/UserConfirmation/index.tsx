@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { object, string } from "yup";
 import Input from "../../components/Input";
 import { confirmUser } from "../../services/auth/confirmUser";
@@ -7,19 +7,18 @@ import { Form } from "../../styles/form.styles";
 
 const UserConfirmation = () => {
   const navigate = useNavigate();
-
+  const { search } = useLocation();
+  const email = new URLSearchParams(search).get("email")!;
   const formik = useFormik({
     initialValues: {
-      email: "",
       confirmationCode: "",
     },
     validationSchema: object().shape({
-      email: string().required("Email is required"),
       confirmationCode: string()
         .required("Confirmation code is required")
         .length(6),
     }),
-    onSubmit: ({ email, confirmationCode }) => {
+    onSubmit: ({ confirmationCode }) => {
       confirmUser(email, confirmationCode)
         .then(() => {
           navigate("/");
@@ -41,7 +40,6 @@ const UserConfirmation = () => {
 
   return (
     <Form onSubmit={formik.handleSubmit}>
-      <Input type="email" {...inputFormHandler("email")} label="Email" />
       <Input
         type="text"
         {...inputFormHandler("confirmationCode")}
