@@ -7,7 +7,6 @@ interface Lead {
 }
 
 export async function createLead(values: Lead) {
-  console.log(values, "values");
   return axios.post("http://localhost:3000/leads", {
     ...values,
   });
