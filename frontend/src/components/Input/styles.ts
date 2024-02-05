@@ -12,6 +12,7 @@ export const Container = styled.section`
   }
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   width: 100%;
 
   label {
@@ -21,5 +22,11 @@ export const Container = styled.section`
     color: red;
     font-size: 12px;
     text-align: start;
+  }
+
+  strong {
+    cursor: pointer;
+    font-size: 12px;
+    padding-left: 5px;
   }
 `;
