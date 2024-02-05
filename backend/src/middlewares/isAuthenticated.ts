@@ -15,6 +15,8 @@ export async function isAuthenticated(
   if (!accessToken) {
     return res.status(401).json({ message: "Unauthorized" });
   }
+
+  //Checking authentication with CognitoJwtVerifier
   const verifier = CognitoJwtVerifier.create({
     userPoolId: poolData.UserPoolId,
     tokenUse: "access",
