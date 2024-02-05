@@ -1,47 +1,47 @@
 import { useFormik } from "formik";
 import { object, string } from "yup";
-
+import { createLead } from "../../services/lead/createLead";
 
 const LeadForm = () => {
-
- const formik = useFormik({
-    initialValues:{
-        name: "", email: "", phone:""
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      phone: "",
     },
     validationSchema: object().shape({
-        name: string()
-        .email("Email not valid")
-        .required("Email is required"),
-        email: string()
-            .email("Email not valid")
-            .required("Email is required"),
-        phone: string().required("Phone is required")
+      name: string().required("Name is required"),
+      email: string().email("Email not valid").required("Email is required"),
+      phone: string().required("Phone is required"),
     }),
-    onSubmit: ()=>{console.log("do domething")}
- });
+    onSubmit: (values) => {
+      console.log("called submit function");
+      createLead(values);
+    },
+  });
 
-
- const inputFormHandler = (name: keyof typeof formik.values) =>{
+  const inputFormHandler = (name: keyof typeof formik.values) => {
     return {
-        onChange:formik.handleChange,
-        id: name,
-        name,
-    }
- }
+      onChange: formik.handleChange,
+      id: name,
+      name,
+    };
+  };
 
+  console.log(formik.isValid, formik.errors);
 
   return (
     <form onSubmit={formik.handleSubmit}>
       <label>Name:</label>
-      <input type="text" {...inputFormHandler("name")}/>
+      <input type="text" {...inputFormHandler("name")} />
 
       <label>Email:</label>
-      <input type="email" {...inputFormHandler("email")}/>
+      <input type="email" {...inputFormHandler("email")} />
 
       <label>Phone:</label>
-      <input type="tel" {...inputFormHandler("phone")}/>
+      <input type="tel" {...inputFormHandler("phone")} />
 
-      <button>Submit</button>
+      <button type="submit">Submit</button>
     </form>
   );
 };
